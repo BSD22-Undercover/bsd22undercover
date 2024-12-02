@@ -1,4 +1,5 @@
 const multer = require("multer");
+const Controller = require("../controllers/controller");
 const router = require("express").Router();
 
 
@@ -13,7 +14,7 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage })
 // landing page
-router.get("/")
+router.get("/", Controller.landingPage)
 
 // login & register
 router.get("/login")
