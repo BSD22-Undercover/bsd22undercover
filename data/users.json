@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "username": "razaan",
+    "password": "razaan24",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "username": "ferdian",
+    "password": "ferdian4321",
+    "role": "user"
+  },
+  {
+    "id": 3,
+    "username": "elonmask",
+    "password": "billionaire",
+    "role": "user"
+  }
+]
+
+
