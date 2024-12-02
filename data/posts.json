@@ -5,7 +5,7 @@
       "image": "/Download/test/1.jpg",
       "createdAt": "2024-11-06T00:00:00.000Z",
       "updatedAt": "2024-12-01T00:00:00.000Z",
-      "UserId": "Hacker"
+      "UserId": 2
     },
     {
         "id": 2,
@@ -13,7 +13,7 @@
         "image": "/Download/test/2.jpg",
         "createdAt": "2024-10-06T00:00:00.000Z",
         "updatedAt": "2024-11-01T00:00:00.000Z",
-        "UserId": "Hacker"
+        "UserId": 2
     },
     {
         "id": 3,
@@ -21,7 +21,7 @@
         "image": "/Download/3.jpg",
         "createdAt": "2024-09-06T00:00:00.000Z",
         "updatedAt": "2024-10-01T00:00:00.000Z",
-        "UserId": "Hacker"
+        "UserId": 3
     },
     {
         "id": 4,
@@ -29,6 +29,6 @@
         "image": "/Download/4.jpg",
         "createdAt": "2024-08-06T00:00:00.000Z",
         "updatedAt": "2024-09-01T00:00:00.000Z",
-        "UserId": "Hacker"
+        "UserId": 3
     }
 ]
