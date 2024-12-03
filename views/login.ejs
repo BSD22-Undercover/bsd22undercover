@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <h2>Login</h2>
+        <div>
+            <form action="/login" method="get">
+            <label>Email</label><br>
+            <input type="text" name="email"><br><br>
+
+            <label>Password</label><br>
+            <input type="password" name="password" id="password"><br>
+            <input type="checkbox" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password'"> Show password <br><br>
+            
+            <button type="submit">Login</button>
+        </form>
+        </div>
+    </main>
+</body>
+</html>

@@ -24,7 +24,8 @@ class Controller {
 
             const newAccount = await User.create({
                 email,
-                password
+                password,
+                role: "user",
             })
             res.redirect("/")
         } catch (error) {
@@ -34,7 +35,8 @@ class Controller {
 
     static async login(req, res) {
         try {
-
+            
+            res.render("login.ejs")
         } catch (error) {
             res.send(error)
         }

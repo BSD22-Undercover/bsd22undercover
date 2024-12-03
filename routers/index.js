@@ -18,8 +18,8 @@ router.get("/", Controller.landingPage)
 
 // login & register
 router.get("/register", Controller.registerForm)
-router.post("/register")
-router.get("/login")
+router.post("/register", Controller.register)
+router.get("/login", Controller.login)
 
 // home & post
 router.get("/home") // ==> memampilkan semua post
