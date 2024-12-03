@@ -5,7 +5,6 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     const users = JSON.parse(await fs.readFile('./data/users.json', 'utf-8'))
     const result = users.map(user => {
-      delete user.id
 
       user.createdAt = user.updatedAt = new Date()
       return user
