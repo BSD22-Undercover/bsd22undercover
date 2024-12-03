@@ -16,9 +16,28 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    email: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: {
+        msg: `Email is not available`
+      },
+      validate: {
+        isEmail: {
+          args: false,
+          msg: `Wrong email format.`
+        },
+        isCreated(value) {
+          if (value !== this.email) {
+            throw new Error(`Email not registered`)
+          }
+        }
+      }
+      
+    },
     password: DataTypes.STRING,
-    role: DataTypes.STRING
+    role: DataTypes.STRING,
+
   }, {
     sequelize,
     modelName: 'User',

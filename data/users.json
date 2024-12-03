@@ -1,18 +1,15 @@
 [
   {
-    "id": 1,
     "email": "razaan@hacktiv8.com",
     "password": "razaan24",
     "role": "admin"
   },
   {
-    "id": 2,
     "email": "ferdian@hacktiv8.com",
     "password": "ferdian4321",
     "role": "user"
   },
   {
-    "id": 3,
     "email": "elonmask@hacktiv8.com",
     "password": "billionaire",
     "role": "user"
