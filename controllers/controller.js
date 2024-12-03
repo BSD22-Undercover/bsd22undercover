@@ -1,5 +1,6 @@
 const { Op } = require('sequelize')
 const { User, Profile, Tag, Post } = require('../models')
+const bcrypt = require('bcrypt')
 
 class Controller {
     
@@ -22,10 +23,11 @@ class Controller {
     static async register(req, res) {
         try {
             const { email, password } = req.body
+            const hashedPassword = await bcrypt.hash(password, 10)
 
             const newAccount = await User.create({
                 email,
-                password,
+                password: hashedPassword,
                 role: "user",
             })
             res.redirect("/")
@@ -34,10 +36,33 @@ class Controller {
         }
     }
 
-    static async login(req, res) {
+    static async loginForm(req, res) {
         try {
             
             res.render("login.ejs")
+        } catch (error) {
+            res.send(error)
+        }
+    }
+
+    static async login(req, res) {
+        try {
+            const { email, password } = req.body; 
+            const user = await User.findOne({
+                where: {
+                    email
+                }
+            })
+            if(!user) {
+                return res.send(`Email not registered`)
+            }
+
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+
+            if (!isPasswordValid) {
+                return res.send('Incorrect password'); 
+            }
+            res.redirect("/home")
         } catch (error) {
             res.send(error)
         }
