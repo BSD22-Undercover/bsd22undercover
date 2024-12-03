@@ -1,4 +1,5 @@
 class Controller {
+    
     static landingPage(req, res) {
         try {
             res.render("landingPage.ejs")
