@@ -54,5 +54,5 @@ class Controller {
 
     static async
 }
-//
+
 module.exports = Controller
