@@ -17,18 +17,18 @@ const storage = multer.diskStorage({
 router.get("/", Controller.landingPage)
 
 // login & register
-router.get("/login")
-router.get("/register")
+router.get("/register", Controller.registerForm)
 router.post("/register")
+router.get("/login")
 
 // home & post
 router.get("/home") // ==> memampilkan semua post
 router.post("/home") // ==> posting post
 
 // profile
-router.get("/profile/:userId")
-router.get("/profile/:userId/edit")
-router.post("/profile/:userId/edit")
+router.get("/profile/:UserId", Controller.showProfile)
+router.get("/profile/:UserId/edit")
+router.post("/profile/:UserId/edit")
 
 // hashtag
 router.get("/hashtag/:name")
