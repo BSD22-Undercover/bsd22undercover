@@ -15,6 +15,7 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage })
 // landing page
 router.get("/", Controller.landingPage)
+router.get("/aboutUs", Controller.aboutUs)
 
 // login & register
 router.get("/register", Controller.registerForm)
