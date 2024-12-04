@@ -130,7 +130,6 @@ class Controller {
             const { username, bio, profilePicture } = req.body;
             const userId = req.session.userId;
     
-            // Create a new profile for the user
             await Profile.create({
                 username,
                 bio,
