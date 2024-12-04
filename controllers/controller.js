@@ -77,7 +77,13 @@ class Controller {
         }
     }
 
-    static async
+    static async home(req, res) {
+        try {
+            res.render("home.ejs")
+        } catch (error) {
+            res.send(error)
+        }
+    }
 }
 
 module.exports = Controller

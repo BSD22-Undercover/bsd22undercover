@@ -23,7 +23,7 @@ router.get("/login", Controller.loginForm)
 router.post("/login", Controller.login)
 
 // home & post
-router.get("/home") // ==> memampilkan semua post
+router.get("/home", Controller.home) // ==> memampilkan semua post
 router.post("/home") // ==> posting post
 
 // profile
