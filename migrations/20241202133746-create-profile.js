@@ -13,7 +13,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       bio: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: "Hello"
       },
       UserId: {
         type: Sequelize.INTEGER

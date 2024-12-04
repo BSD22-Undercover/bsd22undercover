@@ -1,6 +1,13 @@
 const { Op } = require('sequelize')
 const { User, Profile, Tag, Post } = require('../models')
 const bcrypt = require('bcrypt')
+const ImageKit = require('imagekit')
+
+const imagekit = new ImageKit({
+    publicKey: 'public_rf2g5reFPnDVYH5DIGaSUPG2H9U=',
+    privateKey: 'private_nmBguaFjKMKF0LWqch130aGINsY=',
+    urlEndpoint: 'https://ik.imagekit.io/matguchi18/',
+  });
 
 class Controller {
     
@@ -62,6 +69,15 @@ class Controller {
             if (!isPasswordValid) {
                 return res.send('Incorrect password'); 
             }
+
+            req.session.userId = user.id;
+
+            const profile = await Profile.findOne({ where: { UserId: user.id } });
+
+            if (!profile) {
+                return res.redirect('/set-username');
+            }
+
             res.redirect("/home")
         } catch (error) {
             res.send(error)
@@ -79,7 +95,76 @@ class Controller {
 
     static async home(req, res) {
         try {
-            res.render("home.ejs")
+            const posts = await Post.findAll({
+                include: [
+                    {
+                      model: User,
+                      include: [
+                        {
+                          model: Profile,
+                          attributes: ['username', 'bio', 'profilePicture'] // Include profile information
+                        }
+                      ],
+                      attributes: ['name', 'email'] // Ensure 'name' is included here
+                    }
+                  ]
+                });
+          
+              res.render("home.ejs", { posts });
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
+    static async setUsernameForm(req, res) {
+        try {
+            res.render("setUsername.ejs");
+        } catch (error) {
+            res.send(error);
+        }
+    }
+    
+    static async setUsername(req, res) {
+        try {
+            const { username, bio, profilePicture } = req.body;
+            const userId = req.session.userId;
+    
+            // Create a new profile for the user
+            await Profile.create({
+                username,
+                bio,
+                profilePicture,
+                UserId: userId
+            });
+    
+            res.redirect("/home");
+        } catch (error) {
+            res.send(error);
+        }
+    }
+
+    static async createPost(req, res) {
+        try {
+            const { caption } = req.body
+            const imageFile = req.file
+
+            if (!req.session.userId) {
+                return res.redirect('/login');
+            }
+
+            const uploadImage = await imagekit.upload({
+                file: imageFile.buffer.toString('base64'),
+                fileName: imageFile.originalname,
+                folder: '/posts', // Optional folder for the image
+            });
+
+            const newPost = await Post.create({
+                caption,
+                image: uploadImage.url,
+                UserId: req.session.userId 
+            })
+            res.redirect("/home")
         } catch (error) {
             res.send(error)
         }

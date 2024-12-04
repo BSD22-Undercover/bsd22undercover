@@ -3,29 +3,23 @@ const Controller = require("../controllers/controller");
 const router = require("express").Router();
 
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './assets')
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname)
-    }
-  })
-  
-  const upload = multer({ storage: storage })
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 // landing page
 router.get("/", Controller.landingPage)
-router.get("/aboutUs", Controller.aboutUs)
-
 // login & register
 router.get("/register", Controller.registerForm)
 router.post("/register", Controller.register)
 router.get("/login", Controller.loginForm)
 router.post("/login", Controller.login)
 
+// set username
+router.get('/set-username', Controller.setUsernameForm);
+router.post('/set-username', Controller.setUsername);
+
 // home & post
 router.get("/home", Controller.home) // ==> memampilkan semua post
-router.post("/home") // ==> posting post
+router.post("/home", upload.single("image"), Controller.createPost) // ==> posting post
 
 // profile
 router.get("/profile/:UserId", Controller.showProfile)
