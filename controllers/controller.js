@@ -169,25 +169,39 @@ class Controller {
 
     static async createPost(req, res) {
         try {
-            const { caption } = req.body
-            const imageFile = req.file
+            const { caption } = req.body;
+        const imageFile = req.file;
 
-            if (!req.session.userId) {
-                return res.redirect('/login');
-            }
+        if (!req.session.userId) {
+            return res.redirect('/login');
+        }
 
-            const uploadImage = await imagekit.upload({
-                file: imageFile.buffer.toString('base64'),
-                fileName: imageFile.originalname,
-                folder: '/posts', // Optional folder for the image
-            });
+        // Upload the image to ImageKit
+        const uploadImage = await imagekit.upload({
+            file: imageFile.buffer.toString('base64'),
+            fileName: imageFile.originalname,
+            folder: '/posts', // Optional folder for the image
+        });
 
-            const newPost = await Post.create({
-                caption,
-                image: uploadImage.url,
-                UserId: req.session.userId
-            })
-            res.redirect("/home")
+        // Find the profile associated with the logged-in user
+        const userProfile = await Profile.findOne({
+            where: { UserId: req.session.userId }
+        });
+
+        // If profile doesn't exist, you may want to redirect to the set-username page
+        if (!userProfile) {
+            return res.redirect('/set-username');
+        }
+
+        // Create the post with ProfileId
+        const newPost = await Post.create({
+            caption,
+            image: uploadImage.url,
+            UserId: req.session.userId,
+            ProfileId: userProfile.id // Set ProfileId explicitly
+        });
+
+        res.redirect("/home");
         } catch (error) {
             res.send(error)
         }
