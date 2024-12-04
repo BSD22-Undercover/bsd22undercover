@@ -3,23 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sign In</title>
 </head>
-<body>
-    <main>
-        <h2>Create Account</h2>
-        <div>
-            <form action="/register" method="post">
-            <label>Email</label><br>
-            <input type="text" name="email"><br><br>
+<body
+    style="margin: 0; font-family: Arial, sans-serif; background-color: #000000;"
+  >
 
-            <label>Password</label><br>
-            <input type="password" name="password" id="password"><br>
-            <input type="checkbox" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password'"> Show password <br><br>
+    <nav
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        background-color: #000000;
+      "
+    >
+      <!-- Logo Section -->
+      <div style="display: flex; align-items: center">
+        <a href="/">
+          <img
+            src="https://i.pinimg.com/736x/21/04/30/210430b9d998070a397af5da7d96cc1c.jpg"
+            alt="Logo"
+            style="width: 50px; height: 50px; margin-right: 5px"
             
-            <button type="submit">Register</button>
-        </form>
+          />
+        </a>
+        <span style="font-family: Arial, Helvetica, sans-serif; font-size: 25px; color: #ffffff; text-shadow: 0 0 3px #ffffff; animation: shine 2s infinite;">
+          Undercover
+        </span>
+      </div>
+      <div>
+        <a
+          href="/aboutUs"
+          style="
+            font-family: Arial, Helvetica, sans-serif;
+            text-decoration: none;
+            text-shadow: 0 0 3px #ffffff; animation: shine 2s infinite;
+            color: #ffffff;
+            background-color: #1f1f1f;
+            border-color: #fff;
+            padding: 15px 25px;
+            font-size: 16px;
+            border-radius: 30px;
+          "
+        >
+          About Us
+        </a>
+      </div>
+    </nav>
+
+    <main style="text-align: center; padding: 50px 0 0 430px; height: 70vh;">
+        <div style="background-color: #000000; border-radius: 20px; padding: 60px 30px;; width: 350px; text-align: center; justify-content: center; flex: 1;">
+            <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-size: 30px;  margin: 0; font-family: sans-serif; font-weight: bold; color: white; text-shadow: 0 0 3px #ffffff;justify-content: center; animation: shine 2s infinite; margin-bottom: 20px;">Create an account </h2>
+                
+            </div>
+            <div>
+                <form action="/register" method="post"></form>
+                <div style="margin-bottom: 15px;">
+                    <input type="text" placeholder="Email addres" name="email" style="width: 80%; padding: 15px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background-color: #000000; color: #fff; ">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <input type="password" placeholder="Password" name="password"  id="password" style="width: 80%; padding: 15px; margin-bottom: 15px; border-radius: 4px; font-size: 14px; border: 1px solid #fff; background-color: #000000; color: #fff;">
+                </div>
+            </div>
+            <div>
+                <button style="width: 90%; padding: 15px; background-color: #1f1f1f; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-family: sans-serif;">
+                    Continue
+                </button>
+            </div>
+            <div>
+                <a href="/" style="color: black;"><p style="font-family: sans-serif; color: #444444; font-weight: bold; font-size: 12px; margin-top: 20px;">Go back</p></a>
+            </div>
         </div>
     </main>
+        <footer style="display: flex; justify-content: space-between; align-items: center; padding: 50px; background-color: #000000; color: #555; font-size: 14px;">
+            <div style="display: flex; align-items: center">
+              <img
+                src="https://i.pinimg.com/736x/21/04/30/210430b9d998070a397af5da7d96cc1c.jpg"
+                alt="Logo"
+                style="width: 50px; height: 50px; margin-right: 5px"
+              />
+              <span style="font-family: Arial, Helvetica, sans-serif; font-size: 25px; color: #ffffff; text-shadow: 0 0 3px #ffffff; animation: shine 2s infinite;">
+                Undercover
+              </span><br>
+              
+            </div>
+            <div style="color: #555;">© 2024 Undercover. All rights reserved.</div>
+      </footer>
 </body>
 </html>
