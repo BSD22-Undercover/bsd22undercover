@@ -7,10 +7,10 @@ const imagekit = new ImageKit({
     publicKey: 'public_rf2g5reFPnDVYH5DIGaSUPG2H9U=',
     privateKey: 'private_nmBguaFjKMKF0LWqch130aGINsY=',
     urlEndpoint: 'https://ik.imagekit.io/matguchi18/',
-  });
+});
 
 class Controller {
-    
+
     static landingPage(req, res) {
         try {
             res.render("landingPage.ejs")
@@ -45,7 +45,7 @@ class Controller {
 
     static async loginForm(req, res) {
         try {
-            
+
             res.render("login.ejs")
         } catch (error) {
             res.send(error)
@@ -54,20 +54,20 @@ class Controller {
 
     static async login(req, res) {
         try {
-            const { email, password } = req.body; 
+            const { email, password } = req.body;
             const user = await User.findOne({
                 where: {
                     email
                 }
             })
-            if(!user) {
+            if (!user) {
                 return res.send(`Email not registered`)
             }
 
             const isPasswordValid = await bcrypt.compare(password, user.password);
 
             if (!isPasswordValid) {
-                return res.send('Incorrect password'); 
+                return res.send('Incorrect password');
             }
 
             req.session.userId = user.id;
@@ -86,31 +86,55 @@ class Controller {
 
     static async showProfile(req, res) {
         try {
-            const profile = await Profile.findByPk(+req.params.UserId)
-            res.render("profile.ejs", profile)
+            // Find the profile using the UserId from the URL parameter
+            const profile = await Profile.findOne({
+                where: {
+                    UserId: req.params.UserId
+                },
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'email'],
+                        include: [  // Nested includes
+                            {
+                                model: Profile,
+                                attributes: ['username', 'bio']
+                            }
+                        ]
+                    },
+                    {
+                        model: Post,
+                        attributes: ['caption', 'image']
+                    }
+                ]
+            });
+    
+            res.render("profile.ejs", { profile, posts: profile.Posts });
         } catch (error) {
-            res.send(error)
+            res.send(error);
         }
     }
 
     static async home(req, res) {
         try {
+            
             const posts = await Post.findAll({
                 include: [
                     {
-                      model: User,
-                      include: [
-                        {
-                          model: Profile,
-                          attributes: ['username', 'bio', 'profilePicture'] // Include profile information
-                        }
-                      ],
-                      attributes: ['name', 'email'] // Ensure 'name' is included here
+                        model: User,
+                        include: [
+                            {
+                                model: Profile,
+                                attributes: ['username', 'bio', 'profilePicture'] // Include profile information
+                            }
+                        ],
+                        attributes: ['name', 'email'] // Ensure 'name' is included here
                     }
-                  ]
-                });
-          
-              res.render("home.ejs", { posts });
+                ]
+            });
+
+            
+            res.render("home.ejs", { posts });
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -124,19 +148,19 @@ class Controller {
             res.send(error);
         }
     }
-    
+
     static async setUsername(req, res) {
         try {
             const { username, bio, profilePicture } = req.body;
             const userId = req.session.userId;
-    
+
             await Profile.create({
                 username,
                 bio,
                 profilePicture,
                 UserId: userId
             });
-    
+
             res.redirect("/home");
         } catch (error) {
             res.send(error);
@@ -161,7 +185,7 @@ class Controller {
             const newPost = await Post.create({
                 caption,
                 image: uploadImage.url,
-                UserId: req.session.userId 
+                UserId: req.session.userId
             })
             res.redirect("/home")
         } catch (error) {
