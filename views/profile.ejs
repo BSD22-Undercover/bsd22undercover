@@ -1,15 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    /* Navbar Styling */
+    header {
+      background-color: #000000;
+      padding: 15px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 20px;
+      font-size: 16px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px 20px;
+      background-color: #333333;
+      border-radius: 25px;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background-color: #555555;
+    }
+
+    /* Profile Page Styling */
+    .profile-content {
+      display: flex;
+      justify-content: center;
+      margin-top: 120px;
+      padding: 20px;
+    }
+
+    .profile {
+      width: 600px;
+      background-color: #222222;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .profile img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    .profile h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .profile p {
+      font-size: 16px;
+      color: #ddd;
+    }
+
+    /* Posts Section Styling */
+    .posts-section {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .post {
+      background-color: #333;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .post img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .caption {
+      font-size: 16px;
+      color: #ddd;
+      margin-top: 10px;
+    }
+
+  </style>
 </head>
 <body>
-    <main>
-        <div>
-            
+
+  <!-- Header (Navbar) -->
+  <%- include('_globalHeader') %>
+
+  <!-- Profile Content -->
+  <div class="profile-content">
+    <div class="profile">
+      <img src="<%= profile.profilePicture %>" alt="Profile Picture">
+      <h2><%= profile.username %></h2>
+      <p><%= profile.bio %></p>
+    </div>
+  </div>
+
+  <!-- Posts Section -->
+  <div class="posts-section">
+    <% if (posts && posts.length > 0) { %>
+      <% posts.forEach(post => { %>
+        <div class="post">
+          <img src="<%= post.image %>" alt="Post Image">
+          <div class="caption"><%= post.caption %></div>
         </div>
-    </main>
+      <% }) %>
+    <% } else { %>
+      <p>No posts available</p>
+    <% } %>
+  </div>
+
 </body>
 </html>
