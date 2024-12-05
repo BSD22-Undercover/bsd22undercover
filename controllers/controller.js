@@ -1,6 +1,6 @@
 const { Op } = require('sequelize')
 const { User, Profile, Tag, Post } = require('../models')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const ImageKit = require('imagekit')
 
 const imagekit = new ImageKit({
@@ -30,11 +30,11 @@ class Controller {
     static async register(req, res) {
         try {
             const { email, password } = req.body
-            const hashedPassword = await bcrypt.hash(password, 10)
+            
 
             const newAccount = await User.create({
                 email,
-                password: hashedPassword,
+                password,
                 role: "user",
             })
             res.redirect("/")
@@ -88,6 +88,10 @@ class Controller {
     static async showProfile(req, res) {
         try {
             // Find the profile using the UserId from the URL parameter
+            if (!req.session.userId) {
+                return res.redirect('/login');
+            }
+
             const profile = await Profile.findOne({
                 where: {
                     UserId: req.params.UserId
@@ -109,8 +113,8 @@ class Controller {
                     }
                 ]
             });
-    
-            res.render("profile.ejs", { profile, posts: profile.Posts, userId: req.session.userId  });
+
+            res.render("profile.ejs", { profile, posts: profile.Posts, userId: req.session.userId });
         } catch (error) {
             res.send(error);
         }
@@ -118,7 +122,7 @@ class Controller {
 
     static async home(req, res) {
         try {
-            
+
             const posts = await Post.findAll({
                 include: [
                     {
@@ -134,7 +138,7 @@ class Controller {
                 ]
             });
 
-            
+
             res.render("home.ejs", { posts, userId: req.session.userId });
         } catch (error) {
             console.log(error)
@@ -170,45 +174,45 @@ class Controller {
 
     static async createPost(req, res) {
         try {
-        const { caption } = req.body;
-        const imageFile = req.file;
+            const { caption } = req.body;
+            const imageFile = req.file;
 
-        if (!req.session.userId) {
-            return res.redirect('/login');
-        }
+            if (!req.session.userId) {
+                return res.redirect('/login');
+            }
 
-        // Upload the image to ImageKit
-        const uploadImage = await imagekit.upload({
-            file: imageFile.buffer.toString('base64'),
-            fileName: imageFile.originalname,
-            folder: '/posts', // Optional folder for the image
-        });
+            // Upload the image to ImageKit
+            const uploadImage = await imagekit.upload({
+                file: imageFile.buffer.toString('base64'),
+                fileName: imageFile.originalname,
+                folder: '/posts', // Optional folder for the image
+            });
 
-        // Find the profile associated with the logged-in user
-        const userProfile = await Profile.findOne({
-            where: { UserId: req.session.userId }
-        });
+            // Find the profile associated with the logged-in user
+            const userProfile = await Profile.findOne({
+                where: { UserId: req.session.userId }
+            });
 
-        // If profile doesn't exist, you may want to redirect to the set-username page
-        if (!userProfile) {
-            return res.redirect('/set-username');
-        }
+            // If profile doesn't exist, you may want to redirect to the set-username page
+            if (!userProfile) {
+                return res.redirect('/set-username');
+            }
 
-        // Create the post with ProfileId
-        const newPost = await Post.create({
-            caption,
-            image: uploadImage.url,
-            UserId: req.session.userId,
-            ProfileId: userProfile.id // Set ProfileId explicitly
-        });
+            // Create the post with ProfileId
+            const newPost = await Post.create({
+                caption,
+                image: uploadImage.url,
+                UserId: req.session.userId,
+                ProfileId: userProfile.id // Set ProfileId explicitly
+            });
 
-        res.redirect("/home");
+            res.redirect("/home");
         } catch (error) {
             res.send(error)
         }
     }
 
-    static async showEditProfile(req, res) { 
+    static async showEditProfile(req, res) {
         try {
             const profile = await Profile.findOne({
                 where: {
@@ -227,43 +231,43 @@ class Controller {
                     }
                 ]
             });
-    
+
             res.render("editProfile.ejs", { profile, userId: req.session.userId });
         } catch (error) {
-            res.send (error)
+            res.send(error)
         }
     }
 
     static async editProfile(req, res) {
         try {
-            
-            const imageFile = req.file;
+            const { bio, existingProfilePicture } = req.body;  // Get the bio and existing profile picture from the form
+        const imageFile = req.file;  // The uploaded image (if any)
+        
+        let profilePicture = existingProfilePicture;  // Default to the existing profile picture if no new file is uploaded
+        
+        // If a new image is uploaded, upload it to ImageKit and get the URL
+        if (imageFile) {
             const uploadImage = await imagekit.upload({
                 file: imageFile.buffer.toString('base64'),
                 fileName: imageFile.originalname,
-                folder: '/posts', // Optional folder for the image
+                folder: '/posts',  // Optional folder for the image
             });
-            const { bio, existingProfilePicture } = req.body;
-            let profilePicture = existingProfilePicture;
+            profilePicture = uploadImage.url;  // Use the new image URL
+        }
 
-            const editProfile = await Profile.update({
-                image: uploadImage.url,
-                bio: bio,
-                UserId: req.session.userId,
-                ProfileId: userProfile.id 
-            });
-            
-            await Profile.update(
-                {
-                    bio,
-                    profilePicture,
-                },
-                {
-                    where: { UserId: req.session.userId },
-                }
-            );
+        // Now update the user's profile with the new bio and (possibly) new profile picture
+        const updatedProfile = await Profile.update(
+            {
+                bio: bio,  // Update the bio
+                profilePicture: profilePicture,  // Update the profile picture (new or existing)
+            },
+            {
+                where: { UserId: req.session.userId },  // Update the profile of the logged-in user
+            }
+        );
 
-            res.redirect(`/profile/${req.session.userId}`)
+        // After the update, redirect the user to their updated profile page
+        res.redirect(`/profile/${req.session.userId}`);
         } catch (error) {
             console.log(error);
             res.send(error)
