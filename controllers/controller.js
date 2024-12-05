@@ -127,12 +127,13 @@ class Controller {
 
   static async home(req, res) {
     try {
+        
       const { caption } = req.query;
       console.log(caption);
 
       let uname = await Profile.notificationBar(req.session.userId);
       console.log(uname);
-
+      const { error } = req.query
       const posts = await Post.findAll({
         where: {
           caption: {
@@ -159,6 +160,7 @@ class Controller {
         uname,
         addEmoji,
         caption,
+        error
       });
     } catch (error) {
       console.log(error);
@@ -294,6 +296,37 @@ class Controller {
       res.send(error);
     }
   }
+
+  static async deletePost(req, res) {
+    try {
+
+        const deletedPost = await Post.findOne({
+            where: {
+                UserId: req.session.userId,
+                id: req.params.postId
+            }
+        })
+        console.log(deletedPost);
+        
+
+        if (deletedPost) {
+            await Post.destroy({
+                where: {
+                    id: +req.params.postId,
+                    UserId: +req.session.userId
+                }
+            })
+        } else {
+            return res.redirect("/home?error=You can't delete this product")
+        }
+        
+        console.log(`Successful`);
+        
+        res.redirect("/home")
+    } catch (error) {
+        res.send(error)
+    }
+}
 
   static async aboutUs(req, res) {
     try {
