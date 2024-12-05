@@ -244,7 +244,7 @@ class Controller {
     static async editProfile(req, res) {
         try {
             const { username, role, bio, existingProfilePicture } = req.body;  // Get the bio and existing profile picture from the form
-        const imageFile = req.file;  // The uploaded image (if any)
+            const imageFile = req.file;  // The uploaded image (if any)
         
         let profilePicture = existingProfilePicture;  // Default to the existing profile picture if no new file is uploaded
         
