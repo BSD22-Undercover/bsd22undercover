@@ -18,10 +18,10 @@ module.exports = {
         onUpdate: "cascade",
         onDelete: "cascade",
       },
-      UserId: {
+      PostId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Users",
+          model: "Posts",
           key: "id"
         },
         onUpdate: "cascade",

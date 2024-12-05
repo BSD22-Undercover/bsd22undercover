@@ -87,26 +87,14 @@
     /* Posts Section Styling */
     .posts-section {
       margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
-
-    .feed {
-      width: 600px;
-      background-color: #222222;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
+      text-align: left;
     }
 
     .post {
       background-color: #333;
-      margin-bottom: 25px;
+      margin: 10px 0;
       padding: 15px;
       border-radius: 8px;
-      width: 570px;
     }
 
     .post img {
@@ -125,36 +113,39 @@
 <body>
 
   <!-- Header (Navbar) -->
-  <%- include('_globalHeader', { userId: userId }) %>
+  <%- include('_globalHeader') %>
 
   <!-- Profile Content -->
   <div class="profile-content">
     <div class="profile">
       <img src="<%= profile.profilePicture %>" alt="Profile Picture">
-      <h2><%= profile.usernameWithRole %></h2>
-      <p><%= profile.bio %></p>
-      <button><a href="/profile/<%= profile.UserId %>/editProfile">Edit Profile</a></button>
+      <div>
+        <h2><%= profile.username %></h2><p></p>
+        <form action="/profile/<%= profile.id%>/editProfile" method="post"><br>
+        
+          <label>Choose photo to update</label><p></p>
+          <input type="file" name="image" style="display: inline-block; margin-right: 10px;" />
+        
+      </div>
+      <br><br>
+      
+      <label>Edit Your Username</label><p></p>
+      <input type="text" name="username" value="<%= profile.username %>" style="width: 80%; padding: 15px; margin-bottom: 15px; border-radius: 4px; font-size: 14px; border: 1px solid #fff; background-color: #1f1f1f; color: #fff;"><br>
+      <p></p>
+      
+      <label>Edit Your Role</label><p></p>
+      <input type="text" name="role" value="<%= profile.role %>" style="width: 80%; padding: 15px; margin-bottom: 15px; border-radius: 4px; font-size: 14px; border: 1px solid #fff; background-color: #1f1f1f; color: #fff;"><br>
+      <p></p>
+      
+      <label>Edit Your Bio</label><p></p>
+      <input type="text" name="bio" value="<%= profile.bio %>" style="width: 80%; padding: 15px; margin-bottom: 15px; border-radius: 4px; font-size: 14px; border: 1px solid #fff; background-color: #1f1f1f; color: #fff;"><br>
+
+
+      <button type="submit">Update</button>
     </div>
-    <div>
-    </div>
-  </div>
+    
+  </form>
   
-  <!-- Posts Section -->
-  <div class="posts-section">
-    <div class="feed">
-      <% if (posts && posts.length > 0) { %>
-        <% posts.forEach(post => { %>
-          <div class="post">
-            <img src="<%= post.image %>" alt="Post Image">
-            <div class="caption"><%= post.caption %></div>
-        </div>
-      <% }) %>
-    <% } else { %>
-      <div class="post">
-      <p>No posts available</p>
-    </div>
-  </div>
-    <% } %>
   </div>
 
 </body>

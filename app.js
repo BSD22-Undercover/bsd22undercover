@@ -12,7 +12,10 @@ app.use(session({
   secret: 'mySuperSecretKey12345!#%',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } 
+  cookie: { 
+    secure: false,
+    sameSite: true
+  } 
 }));
 
 app.set('view engine', 'ejs')
