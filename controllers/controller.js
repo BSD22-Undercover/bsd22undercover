@@ -81,6 +81,7 @@ class Controller {
 
             res.redirect("/home")
         } catch (error) {
+            console.log(error)
             res.send(error)
         }
     }
@@ -169,6 +170,7 @@ class Controller {
 
             res.redirect("/home");
         } catch (error) {
+            console.log(error)
             res.send(error);
         }
     }
@@ -241,7 +243,7 @@ class Controller {
 
     static async editProfile(req, res) {
         try {
-            const { bio, existingProfilePicture } = req.body;  // Get the bio and existing profile picture from the form
+            const { username, role, bio, existingProfilePicture } = req.body;  // Get the bio and existing profile picture from the form
         const imageFile = req.file;  // The uploaded image (if any)
         
         let profilePicture = existingProfilePicture;  // Default to the existing profile picture if no new file is uploaded
@@ -259,8 +261,11 @@ class Controller {
         // Now update the user's profile with the new bio and (possibly) new profile picture
         const updatedProfile = await Profile.update(
             {
+                username,
+                role,
                 bio: bio,  // Update the bio
                 profilePicture: profilePicture,  // Update the profile picture (new or existing)
+
             },
             {
                 where: { UserId: req.session.userId },  // Update the profile of the logged-in user

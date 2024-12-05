@@ -84,6 +84,12 @@
       margin-top: 120px; /* Adjust content position to make space for navbar */
     }
 
+    .button-post {
+      display: flex;
+      justify-content: center;
+       /* Adjust content position to make space for navbar */
+    }
+
     .feed {
       width: 600px;
       background-color: #222222;
@@ -224,7 +230,7 @@
               <img 
                 src="https://ik.imagekit.io/matguchi18/image-.png?updatedAt=1733376741193" 
                 alt="Upload Icon" 
-                style="width: 20px; height: 20px;"
+                style="width: 40px; height: 40px;"
               /><button 
               type="button" 
               style="
@@ -235,8 +241,10 @@
               "
               onclick="document.getElementById('fileInput').click()"
             >
-              <button type="submit">Post</button>
-            </div>
+          </div>
+          <div class="button-post">
+            <button type="submit">Post</button>
+          </div>
           </form>
             </button>
       </div>
