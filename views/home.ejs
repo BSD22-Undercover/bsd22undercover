@@ -43,6 +43,11 @@
         background-color: #333333;
         border-radius: 25px;
         transition: background-color 0.3s ease;
+        display: flex;              
+        justify-content: center;   
+        align-items: center;        
+        height: 30px;               
+        text-align: center;
     }
 
     .navbar a:hover {
@@ -177,6 +182,7 @@
       cursor: pointer;
       font-size: 16px;
       font-weight: bold;
+      border-radius: 15px;
     }
 
     .post-footer button:hover {
@@ -211,17 +217,19 @@
       }
 
     .textInput {
-      width: 100%;  /* Ensures it fills the container */
-        max-width: 97%;  /* Limits the width to 100% of the container's size */
+      width: 100%;  
+        max-width: 97%;  
         padding: 10px;
         background-color: #444444;
         border: none;
         border-radius: 8px;
         color: #ffffff;
-        resize: vertical;  /* Allows vertical resizing */
-        min-height: 30px;
+        resize: vertical; 
+        min-height: 20px;
         margin-bottom: 15px;
     }
+
+    
 
   </style>
 </head>
@@ -233,28 +241,17 @@
   </div>
 
   <!-- Header (Navbar) -->
+   
   <%- include('_globalHeader', { userId: userId }) %>
 
   <div class="notification-bar" id="notificationBar">
     <span>
       Hey there, welcome to Undercover <%= uname %>
     </span>
-    <button class="close-btn" onclick="closeNotification()">×</button>
+    <button class="close-btn" onclick="closeNotification(event)">×</button>
   </div>
 
-  <div>
-      <form action="/home" method="get" style="display: flex">
-        <input
-        type="text"
-        name="caption"
-        placeholder="Search topic caption"
-        style="margin: 5px 5px"
-        />
-        <button type="submit" style="padding: 5px; background-color: pink">
-          Search
-        </button>
-      </form>
-  </div>
+  
 
   <!-- Main Content -->
   <div class="content">
@@ -315,23 +312,23 @@
           <div class="post-content">
             <%= post.caption %>
           </div>
-          <b><p></p>
-            <label>Tags:</label>
-            <br><br>
+          <% if (post.image) { %>
+            <div class="post-image">
+              <img src="<%= post.image %>" alt="Post Image" style="max-width: 100%; border-radius: 8px;">
+            </div>
+            <% } %>
+            <b><p></p>
+              <label>Tags:</label>
+              <br><br>
           <% post.Tags.forEach(tag => { %>
             <div class="post-content" style="display:inline;">
               <a href="/post/<%= tag.id %>" style="border:1px solid white; margin-left: 3px; border-radius: 5px; padding:2px;">#<%= tag.name %></a href="#">
             </div>
           <% }) %>
         </b>
-          <% if (post.image) { %>
-            <div class="post-image">
-                <img src="<%= post.image %>" alt="Post Image" style="max-width: 100%; border-radius: 8px;">
-            </div>
-          <% } %>
 
           <div class="post-footer">
-            <button>
+            <button style>
               <a href="/delete/<%= post.id %>">Delete</a>
             </button>
     
@@ -343,11 +340,12 @@
   </div>
 
   <script>
-    function closeNotification() {
-      const notification = document.getElementById("notificationBar");
-      notification.style.display = "none";
+    function closeNotification(event) {
+      event.stopPropagation();
+      const notification = document.getElementById("notificationBar")
+      notification.style.display = "none"
     }
-  </script>
 
+  </script>
 </body>
 </html>
