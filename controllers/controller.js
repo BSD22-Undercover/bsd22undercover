@@ -124,16 +124,15 @@ class Controller {
 
     static async home(req, res) {
         try {
-            // console.log(req.query)
             const { error, caption } = req.query
             
-            let uname = "User";  // Default value in case the profile is not set
+            let uname = "User"; 
             const profile = await Profile.findOne({
                 where: { UserId: req.session.userId }
             });
     
             if (profile) {
-                uname = profile.username;  // Set uname to the username if the profile exists
+                uname = profile.username;  
             }
 
             const posts = await Post.findAll({
@@ -155,13 +154,10 @@ class Controller {
                     },
                     {
                         model: Tag,
-                        
                     }
                 ]
             });
 
-            // console.log(posts[1].Tags.name);
-            
             res.render("home.ejs", { posts, userId: req.session.userId, uname, addEmoji, caption, error });
         } catch (error) {
             console.log(error)
