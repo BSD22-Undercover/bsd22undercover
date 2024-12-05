@@ -29,6 +29,9 @@ router.get("/profile/:UserId", Controller.showProfile)
 router.get("/profile/:UserId/editProfile", Controller.showEditProfile)
 router.post("/profile/:UserId/editProfile", Controller.editProfile)
 
+// delete
+router.get("/delete/:postId", Controller.deletePost)
+
 // hashtag
 router.get("/hashtag/:name")
 

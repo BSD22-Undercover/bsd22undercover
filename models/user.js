@@ -32,6 +32,12 @@ module.exports = (sequelize, DataTypes) => {
           if (value !== this.email) {
             throw new Error(`Email not registered`)
           }
+        },
+        notNull: {
+          msg: `Email cant be null`
+        },
+        notEMpty: {
+          msg: `Email cant be empty`
         }
       }
       

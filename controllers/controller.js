@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { User, Profile, Tag, Post } = require('../models')
+const { User, Profile, Tag, Post, TagPost } = require('../models')
 const bcrypt = require('bcryptjs')
 const ImageKit = require('imagekit')
 
@@ -89,7 +89,6 @@ class Controller {
 
     static async showProfile(req, res) {
         try {
-            // Find the profile using the UserId from the URL parameter
             if (!req.session.userId) {
                 return res.redirect('/login');
             }
@@ -102,7 +101,7 @@ class Controller {
                     {
                         model: User,
                         attributes: ['id', 'email'],
-                        include: [  // Nested includes
+                        include: [  
                             {
                                 model: Profile,
                                 attributes: ['username', 'bio']
@@ -124,7 +123,7 @@ class Controller {
 
     static async home(req, res) {
         try {
-
+            const { error } = req.query
             const posts = await Post.findAll({
                 include: [
                     {
@@ -132,16 +131,21 @@ class Controller {
                         include: [
                             {
                                 model: Profile,
-                                attributes: ['username', 'bio', 'profilePicture'] // Include profile information
+                                attributes: ['username', 'bio', 'profilePicture'] 
                             }
                         ],
-                        attributes: ['name', 'email'] // Ensure 'name' is included here
+                        attributes: ['name', 'email'] 
+                    },
+                    {
+                        model: Tag,
+                        
                     }
                 ]
             });
 
-
-            res.render("home.ejs", { posts, userId: req.session.userId });
+            // console.log(posts[1].Tags.name);
+            
+            res.render("home.ejs", { posts, userId: req.session.userId, error });
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -178,36 +182,64 @@ class Controller {
 
     static async createPost(req, res) {
         try {
-            const { caption } = req.body;
+            const { caption, name } = req.body;
             const imageFile = req.file;
 
-            // Upload the image to ImageKit
-            const uploadImage = await imagekit.upload({
-                file: imageFile.buffer.toString('base64'),
-                fileName: imageFile.originalname,
-                folder: '/posts', // Optional folder for the image
-            });
-
-            // Find the profile associated with the logged-in user
+            let uploadImage = ""
+            if (imageFile && imageFile.buffer) {
+                 uploadImage = await imagekit.upload({
+                    file: imageFile.buffer.toString("base64"),
+                    fileName: imageFile.originalname,
+                    folder: '/posts', 
+                });
+            }
+            
             const userProfile = await Profile.findOne({
                 where: { UserId: req.session.userId }
             });
 
-            // If profile doesn't exist, you may want to redirect to the set-username page
             if (!userProfile) {
                 return res.redirect('/set-username');
             }
 
-            // Create the post with ProfileId
             const newPost = await Post.create({
                 caption,
-                image: uploadImage.url,
+                image: uploadImage === "" ? "" : uploadImage.url,
                 UserId: req.session.userId,
-                ProfileId: userProfile.id // Set ProfileId explicitly
+                ProfileId: userProfile.id 
             });
+
+            let tags;
+            if (name) {
+                tags = name.split(",")
+            }
+
+            tags.forEach(async (tag) =>{
+                const findTag = await Tag.findOne({
+                    where: {
+                        name: tag
+                    }
+                })
+                if (findTag) {
+                    const newTagPost = await TagPost.create({
+                        TagId: findTag.id,
+                        PostId: newPost.id
+                    })
+                } else {
+                    const newTag = await Tag.create({
+                        name: tag
+                    })
+                    const newTagPost = await TagPost.create({
+                        TagId: newTag.id,
+                        PostId: newPost.id
+                    })
+
+                }
+            })
 
             res.redirect("/home");
         } catch (error) {
+            console.log(error)
             res.send(error)
         }
     }
@@ -222,7 +254,7 @@ class Controller {
                     {
                         model: User,
                         attributes: ['id', 'email'],
-                        include: [  // Nested includes
+                        include: [  
                             {
                                 model: Profile,
                                 attributes: ['username', 'bio']
@@ -240,36 +272,33 @@ class Controller {
 
     static async editProfile(req, res) {
         try {
-            const { username, role, bio, existingProfilePicture } = req.body;  // Get the bio and existing profile picture from the form
-            const imageFile = req.file;  // The uploaded image (if any)
+            const { username, role, bio, existingProfilePicture } = req.body; 
+            const imageFile = req.file;  
         
-        let profilePicture = existingProfilePicture;  // Default to the existing profile picture if no new file is uploaded
+        let profilePicture = existingProfilePicture;  
         
-        // If a new image is uploaded, upload it to ImageKit and get the URL
         if (imageFile) {
             const uploadImage = await imagekit.upload({
                 file: imageFile.buffer.toString('base64'),
                 fileName: imageFile.originalname,
-                folder: '/posts',  // Optional folder for the image
+                folder: '/posts',  
             });
-            profilePicture = uploadImage.url;  // Use the new image URL
+            profilePicture = uploadImage.url;  
         }
 
-        // Now update the user's profile with the new bio and (possibly) new profile picture
         const updatedProfile = await Profile.update(
             {
                 username,
                 role,
-                bio: bio,  // Update the bio
-                profilePicture: profilePicture,  // Update the profile picture (new or existing)
+                bio: bio,  
+                profilePicture: profilePicture,  
 
             },
             {
-                where: { UserId: req.session.userId },  // Update the profile of the logged-in user
+                where: { UserId: req.session.userId },  
             }
         );
 
-        // After the update, redirect the user to their updated profile page
         res.redirect(`/profile/${req.session.userId}`);
         } catch (error) {
             console.log(error);
@@ -277,7 +306,36 @@ class Controller {
         }
     }
 
+    static async deletePost(req, res) {
+        try {
 
+            const deletedPost = await Post.findOne({
+                where: {
+                    UserId: req.session.userId,
+                    id: req.params.postId
+                }
+            })
+            console.log(deletedPost);
+            
+
+            if (deletedPost) {
+                await Post.destroy({
+                    where: {
+                        id: +req.params.postId,
+                        UserId: +req.session.userId
+                    }
+                })
+            } else {
+                return res.redirect("/home?error=You can't delete this product")
+            }
+            
+            console.log(`Successful`);
+            
+            res.redirect("/home")
+        } catch (error) {
+            res.send(error)
+        }
+    }
 
 
     static async aboutUs(req, res) {
