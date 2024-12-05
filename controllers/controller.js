@@ -72,7 +72,8 @@ class Controller {
             }
 
             req.session.userId = user.id;
-
+            req.session.role = user.role
+            console.log(req.session)
             const profile = await Profile.findOne({ where: { UserId: user.id } });
 
             if (!profile) {
@@ -179,10 +180,6 @@ class Controller {
         try {
             const { caption } = req.body;
             const imageFile = req.file;
-
-            if (!req.session.userId) {
-                return res.redirect('/login');
-            }
 
             // Upload the image to ImageKit
             const uploadImage = await imagekit.upload({
