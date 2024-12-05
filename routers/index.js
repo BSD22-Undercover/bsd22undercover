@@ -24,8 +24,8 @@ router.post("/home", upload.single("image"), Controller.createPost) // ==> posti
 
 // profile
 router.get("/profile/:UserId", Controller.showProfile)
-router.get("/profile/:UserId/edit", Controller.showEditProfile)
-router.post("/profile/:UserId/edit")
+router.get("/profile/:UserId/editProfile", Controller.showEditProfile)
+router.post("/profile/:UserId/editProfile", Controller.editProfile)
 
 // hashtag
 router.get("/hashtag/:name")

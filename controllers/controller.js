@@ -170,7 +170,7 @@ class Controller {
 
     static async createPost(req, res) {
         try {
-            const { caption } = req.body;
+        const { caption } = req.body;
         const imageFile = req.file;
 
         if (!req.session.userId) {
@@ -224,21 +224,51 @@ class Controller {
                                 attributes: ['username', 'bio']
                             }
                         ]
-                    },
-                    {
-                        model: Post,
-                        attributes: ['caption', 'image']
                     }
                 ]
             });
     
-            res.render("profile.ejs", { profile, posts: profile.Posts });
+            res.render("editProfile.ejs", { profile, userId: req.session.userId });
         } catch (error) {
             res.send (error)
         }
     }
 
+    static async editProfile(req, res) {
+        try {
+            
+            const imageFile = req.file;
+            const uploadImage = await imagekit.upload({
+                file: imageFile.buffer.toString('base64'),
+                fileName: imageFile.originalname,
+                folder: '/posts', // Optional folder for the image
+            });
+            const { bio, existingProfilePicture } = req.body;
+            let profilePicture = existingProfilePicture;
 
+            const editProfile = await Profile.update({
+                image: uploadImage.url,
+                bio: bio,
+                UserId: req.session.userId,
+                ProfileId: userProfile.id 
+            });
+            
+            await Profile.update(
+                {
+                    bio,
+                    profilePicture,
+                },
+                {
+                    where: { UserId: req.session.userId },
+                }
+            );
+
+            res.redirect(`/profile/${req.session.userId}`)
+        } catch (error) {
+            console.log(error);
+            res.send(error)
+        }
+    }
 
 
 

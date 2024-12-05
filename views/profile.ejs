@@ -133,17 +133,20 @@
       <img src="<%= profile.profilePicture %>" alt="Profile Picture">
       <h2><%= profile.username %></h2>
       <p><%= profile.bio %></p>
+      <button><a href="/profile/<%= profile.UserId %>/editProfile">Edit Profile</a></button>
+    </div>
+    <div>
     </div>
   </div>
-
+  
   <!-- Posts Section -->
   <div class="posts-section">
     <div class="feed">
-    <% if (posts && posts.length > 0) { %>
-      <% posts.forEach(post => { %>
-        <div class="post">
-          <img src="<%= post.image %>" alt="Post Image">
-          <div class="caption"><%= post.caption %></div>
+      <% if (posts && posts.length > 0) { %>
+        <% posts.forEach(post => { %>
+          <div class="post">
+            <img src="<%= post.image %>" alt="Post Image">
+            <div class="caption"><%= post.caption %></div>
         </div>
       <% }) %>
     <% } else { %>

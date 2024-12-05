@@ -119,26 +119,17 @@
   <div class="profile-content">
     <div class="profile">
       <img src="<%= profile.profilePicture %>" alt="Profile Picture">
+      <div>
+        <form action="/profile/<%= profile.id%>/editProfile" method="post">
+        <input type="file" name="image" style="display: inline-block; margin-right: 10px;" />
+        <button type="submit">Post</button>
+      </div>
       <h2><%= profile.username %></h2>
+      
+      <input type="text" name="bio" value="<%= profile.bio %>" style="width: 80%; padding: 15px; margin-bottom: 15px; border-radius: 4px; font-size: 14px; border: 1px solid #fff; background-color: #1f1f1f; color: #fff;">
     </div>
-    <form action="/profile/<% profile.id%>/edit" method="post"></form>
-    <div>
-      <input type="text" name="bio"  style="width: 80%; padding: 15px; margin-bottom: 15px; border-radius: 4px; font-size: 14px; border: 1px solid #fff; background-color: #1f1f1f; color: #fff;">
-  </div>
-  </div>
-
-  <!-- Posts Section -->
-  <div class="posts-section">
-    <% if (posts && posts.length > 0) { %>
-      <% posts.forEach(post => { %>
-        <div class="post">
-          <img src="<%= post.image %>" alt="Post Image">
-          <div class="caption"><%= post.caption %></div>
-        </div>
-      <% }) %>
-    <% } else { %>
-      <p>No posts available</p>
-    <% } %>
+  </form>
+  
   </div>
 
 </body>
