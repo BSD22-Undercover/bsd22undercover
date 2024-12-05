@@ -81,7 +81,7 @@ class Controller {
                 return res.redirect('/set-username');
             }
 
-            res.redirect("/home")
+            res.redirect("/home?caption=")
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -186,7 +186,7 @@ class Controller {
                 role: "The Newbie"
             });
 
-            res.redirect("/home");
+            res.redirect("/home?caption=");
         } catch (error) {
             console.log(error)
             res.send(error);
@@ -222,7 +222,7 @@ class Controller {
                 ProfileId: userProfile.id 
             });
 
-            let tags;
+            let tags="";
             if (name) {
                 tags = name.split(",")
             }
@@ -250,7 +250,7 @@ class Controller {
                 }
             })
 
-            res.redirect("/home");
+            res.redirect("/home?caption=");
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -340,35 +340,22 @@ class Controller {
             })
             console.log(deletedPost);
             
-
-            if (deletedPost) {
-                await Post.destroy({
-                    where: {
-                        id: +req.params.postId,
-                        UserId: +req.session.userId
-                    }
-                })
             } else {
                 return res.redirect("/home?error=You can't delete this Post")
             }
             
             // console.log(`Successful`);
             
-            res.redirect("/home")
+            res.redirect("/home?caption=")
         } 
-         }catch (error) {
-            res.send(error)
-        }
         
-        console.log(`Successful`);
-        
-        res.redirect("/home")
-    } catch (error) {
+
+     catch (error) {
         res.send(error)
     }
 
 
-
+    }
     static async aboutUs(req, res) {
         try {
             res.render("aboutUs.ejs")
