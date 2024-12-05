@@ -1,5 +1,6 @@
 const multer = require("multer");
 const Controller = require("../controllers/controller");
+const isAuthenticated = require("../middlewares/isAuthenticated");
 const router = require("express").Router();
 
 
@@ -13,7 +14,7 @@ router.get("/register", Controller.registerForm)
 router.post("/register", Controller.register)
 router.get("/login", Controller.loginForm)
 router.post("/login", Controller.login)
-
+router.use(isAuthenticated)
 // set username
 router.get('/set-username', Controller.setUsernameForm);
 router.post('/set-username', Controller.setUsername);

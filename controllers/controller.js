@@ -69,9 +69,10 @@ class Controller {
         return res.send("Incorrect password");
       }
 
-      req.session.userId = user.id;
-
-      const profile = await Profile.findOne({ where: { UserId: user.id } });
+            req.session.userId = user.id;
+            req.session.role = user.role
+            console.log(req.session)
+            const profile = await Profile.findOne({ where: { UserId: user.id } });
 
       if (!profile) {
         return res.redirect("/set-username");
@@ -198,16 +199,12 @@ class Controller {
       const { caption } = req.body;
       const imageFile = req.file;
 
-      if (!req.session.userId) {
-        return res.redirect("/login");
-      }
-
-      // Upload the image to ImageKit
-      const uploadImage = await imagekit.upload({
-        file: imageFile.buffer.toString("base64"),
-        fileName: imageFile.originalname,
-        folder: "/posts", // Optional folder for the image
-      });
+            // Upload the image to ImageKit
+            const uploadImage = await imagekit.upload({
+                file: imageFile.buffer.toString('base64'),
+                fileName: imageFile.originalname,
+                folder: '/posts', // Optional folder for the image
+            });
 
       // Find the profile associated with the logged-in user
       const userProfile = await Profile.findOne({
