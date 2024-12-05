@@ -23,6 +23,7 @@ router.get("/home", Controller.home) // ==> memampilkan semua post
 router.post("/home", upload.single("image"), Controller.createPost) // ==> posting post
 
 // profile
+router.get("/profile", Controller.loginForm)
 router.get("/profile/:UserId", Controller.showProfile)
 router.get("/profile/:UserId/editProfile", Controller.showEditProfile)
 router.post("/profile/:UserId/editProfile", Controller.editProfile)
