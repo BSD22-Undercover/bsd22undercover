@@ -7,6 +7,7 @@ module.exports = {
       type: Sequelize.INTEGER
     })
   },
+  // a
 
   async down (queryInterface, Sequelize) {
     await queryInterface.removeColumn('Posts', 'ProfileId')
