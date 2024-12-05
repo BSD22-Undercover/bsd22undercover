@@ -344,16 +344,12 @@ class Controller {
                 return res.redirect("/home?error=You can't delete this Post")
             }
             
-            // console.log(`Successful`);
-            
             res.redirect("/home?caption=")
         } 
         
-
      catch (error) {
         res.send(error)
     }
-
 
     }
     static async aboutUs(req, res) {

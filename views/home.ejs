@@ -12,17 +12,15 @@
       color: #ffffff;
     }
 
-    /* Navbar Styling */
-    /* Navbar Styling */
     header {
-        background-color: #000000; /* Black background for the navbar */
+        background-color: #000000;
         padding: 15px 0;
-        position: fixed; /* Fix the navbar at the top */
+        position: fixed; 
         top: 0;
         left: 0;
         width: 100%;
         display: flex;
-        justify-content: center; /* Center the navbar content */
+        justify-content: center;
         align-items: center;
         z-index: 1000;
     }
@@ -31,7 +29,7 @@
         display: flex;
         gap: 20px;
         font-size: 16px;
-        justify-content: center; /* Center the navbar links */
+        justify-content: center; 
         width: 100%;
     }
 
@@ -51,11 +49,9 @@
     }
 
     .navbar a:hover {
-        background-color: #555555; /* Darker shade on hover */
+        background-color: #555555;
     }
 
-
-    /* New CSS for the centered button */
     .center-button-container {
       display: flex;
       justify-content: center;
@@ -86,13 +82,12 @@
     .content {
       display: flex;
       justify-content: center;
-      margin-top: 120px; /* Adjust content position to make space for navbar */
+      margin-top: 120px;
     }
 
     .button-post {
       display: flex;
       justify-content: center;
-       /* Adjust content position to make space for navbar */
     }
 
     .feed {
@@ -103,7 +98,6 @@
       padding: 20px;
     }
 
-    /* Post Compose Area */
     .post-compose {
       background-color: #333333;
       border-radius: 8px;
@@ -138,7 +132,6 @@
         background-color: #777777;
     }
 
-    /* Post Styling */
     .post {
       margin-bottom: 20px;
       padding: 10px;
@@ -190,14 +183,14 @@
     }
 
     .post-compose textarea {
-        width: 100%;  /* Ensures it fills the container */
-        max-width: 97%;  /* Limits the width to 100% of the container's size */
+        width: 100%;  
+        max-width: 97%;  
         padding: 10px;
         background-color: #444444;
         border: none;
         border-radius: 8px;
         color: #ffffff;
-        resize: vertical;  /* Allows vertical resizing */
+        resize: vertical;  
         min-height: 100px;
         margin-bottom: 15px;
     }
@@ -205,9 +198,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: #fff7cc; /* Light yellow background */
-        color: #000; /* Black text color */
-        border: 1px solid #ffe58f; /* Yellow border */
+        background-color: #fff7cc; 
+        color: #000; 
+        border: 1px solid #ffe58f; 
         border-radius: 5px;
         padding: 10px 15px;
         margin: 5rem 30px;
@@ -235,12 +228,10 @@
 </head>
 <body>
 
-  <!-- Centered Button at the Top -->
   <div class="center-button-container">
     <button class="center-button">Centered Button</button>
   </div>
 
-  <!-- Header (Navbar) -->
    
   <%- include('_globalHeader', { userId: userId }) %>
 
@@ -253,20 +244,17 @@
 
   
 
-  <!-- Main Content -->
   <div class="content">
     <div class="feed">
       <% if(error) { %>
         <p><%= error %></p>
       <% } %>
-      <!-- Post Compose Section (Text Area, Image Upload, Send Button) -->
       <div class="post-compose">
         <form action="/home" method="POST" enctype="multipart/form-data">
           <textarea placeholder="What's happening?" name="caption"></textarea>
           <label for="">Tags:</label><p></p>
           <input type="text" class="textInput" placeholder="Example input: funny,sad" name="name"></textarea>
           <div style="display: inline-block; position: relative;">
-            <!-- Hidden file input -->
             <input 
               type="file" 
               name="image" 
@@ -274,8 +262,6 @@
               style="opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer;" 
             />
           
-            <!-- Custom button styled with the provided icon -->
-  
               <img 
                 src="https://ik.imagekit.io/matguchi18/posts/image-gallery.png?updatedAt=1733390799588" 
                 alt="Upload Icon" 
@@ -303,7 +289,7 @@
           <div class="post-header">
             <% if (post.User.Profile) { %>
               <img src="<%= post.User.Profile.profilePicture || 'https://randomuser.me/api/portraits/men/5.jpg' %>" alt="<%= post.User.Profile.username %>">
-              <span><%= post.User.Profile.username + " " + addEmoji() %></span> <!-- Display the username here -->
+              <span><%= post.User.Profile.username + " " + addEmoji() %></span>
             <% } else { %>
               <img src="https://randomuser.me/api/portraits/men/5.jpg" alt="Default User">
               <span>Unknown User</span>
