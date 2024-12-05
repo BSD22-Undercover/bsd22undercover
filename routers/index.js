@@ -33,6 +33,6 @@ router.post("/profile/:UserId/editProfile", upload.single("image"), Controller.e
 router.get("/delete/:postId", Controller.deletePost)
 
 // hashtag
-router.get("/hashtag/:name")
+router.get("/post/:id", Controller.showPostByTag)
 
 module.exports = router

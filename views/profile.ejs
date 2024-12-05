@@ -157,8 +157,9 @@
       <% if (posts && posts.length > 0) { %>
         <% posts.forEach(post => { %>
           <div class="post">
-            <img src="<%= post.image %>" alt="Post Image">
             <div class="caption"><%= post.caption %></div>
+            <div style="padding-bottom: 10px;"></div>
+            <img src="<%= post.image %>" alt="Post Image">
         </div>
       <% }) %>
     <% } else { %>

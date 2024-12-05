@@ -350,8 +350,50 @@ class Controller {
      catch (error) {
         res.send(error)
     }
-
     }
+
+    static async showPostByTag(req,res) {
+        try {
+
+            const tag = await Tag.findOne({
+                where: {
+                    id: +req.params.id
+                }
+            });
+
+            const tagPosts = await TagPost.findAll({
+                where: {
+                    TagId: +req.params.id
+                },
+                attributes: ['PostId'] 
+            });
+
+            const postIds = tagPosts.map(tagPost => tagPost.PostId);
+
+            const posts = await Post.findAll({
+                where: {
+                    id: postIds
+                },
+                include: [
+                    {
+                        model: User,
+                        include: [
+                            {
+                                model: Profile,
+                                attributes: ['username', 'bio', 'profilePicture']
+                            }
+                        ],
+                        attributes: ['name', 'email']
+                    }
+                ]
+            });
+            res.render("postsByTag.ejs", { posts, userId: req.session.userId, addEmoji })
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
     static async aboutUs(req, res) {
         try {
             res.render("aboutUs.ejs")
