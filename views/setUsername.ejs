@@ -5,13 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set Username</title>
 </head>
-<body>
-    <h1>Set Your Username</h1>
-    <form action="/set-username" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <button type="submit">Save</button>
-    </form>
+<body
+    style="margin: 0; font-family: Arial, sans-serif; background-color: #000000;"
+  >
+
+  <nav
+  style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: #000000;
+  "
+>
+  <div style="display: flex; align-items: center; padding-left: 550px; padding-top: 20px;">
+    <a href="/">
+      <img
+        src="https://i.pinimg.com/736x/21/04/30/210430b9d998070a397af5da7d96cc1c.jpg"
+        alt="Logo"
+        style="width: 60px; height: 60px; margin-right: 5px"
+        
+      />
+    </a>
+  </div>
+  </nav>
+
+    <main style="text-align: center; padding: 30px 0 0 430px; height: 50vh;">
+        <div style="background-color: #000000; border-radius: 20px; padding: 60px 30px;; width: 350px; text-align: center; justify-content: center; flex: 1;">
+            <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-size: 30px;  margin: 0; font-family: sans-serif; font-weight: bold; color: white; text-shadow: 0 0 3px #ffffff;justify-content: center; animation: shine 2s infinite; margin-bottom: 20px;">Set Username</h2>
+                
+            </div>
+            <div>
+                <form action="/set-username" method="post">
+                <div style="margin-bottom: 15px;">
+                    <input type="text" placeholder="Username" name="username" style="width: 80%; padding: 15px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background-color: #000000; color: #fff; ">
+                </div>
+            </div>
+            <div>
+                <button style="width: 90%; padding: 15px; background-color: #1f1f1f; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-family: sans-serif;">
+                    Continue
+                </button>
+            </div>
+          </form>
+        </div>
+    </main>
+    <footer
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 50px;
+        background-color: #000000;
+        color: #555;
+        font-size: 14px;
+        margin-top: 100px;
+      "
+    >
+      <main>
+        <div>
+          <span
+            style="
+              font-family: sans-serif;
+              font-weight: bold;
+              font-size: 15px;
+              padding-left: 950px;
+              color: #fff;
+            "
+            >Links</span
+          >
+        </div>
+        <div style="display: flex; align-items: center; padding-left: 50px">
+          <span
+            style="
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 25px;
+              color: #ffffff;
+              text-shadow: 0 0 3px #ffffff;
+              animation: shine 2s infinite;
+              margin-bottom: 10px;
+            "
+          >
+            Undercover
+          </span>
+          <a
+            href="/login"
+            style="
+              font-family: sans-serif;
+              color: #555;
+              font-weight: bold;
+              padding-left: 770px;
+            "
+            >Home</a
+          >
+        </div>
+        <div>
+          <span style="color: #555; padding-left: 50px"
+            >© 2024 Undercover. All rights reserved</span
+          >
+          <a
+            href="/register"
+            style="
+              font-family: sans-serif;
+              color: #555;
+              font-weight: bold;
+              padding-left: 655px;
+            "
+            >Create an account</a
+          >
+        </div>
+        <div style="padding-top: 10px">
+          <a
+            href="/aboutUs"
+            style="
+              font-family: sans-serif;
+              color: #555;
+              font-weight: bold;
+              padding-left: 950px;
+            "
+            >About us</a
+          >
+        </div>
+      </main>
+    </footer>
 </body>
 </html>
