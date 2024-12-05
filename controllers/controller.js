@@ -39,6 +39,7 @@ class Controller {
             })
             res.redirect("/")
         } catch (error) {
+            console.log(error)
             res.send(error)
         }
     }
