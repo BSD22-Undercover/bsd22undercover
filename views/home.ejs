@@ -210,11 +210,35 @@
       <div class="post-compose">
         <form action="/home" method="POST" enctype="multipart/form-data">
           <textarea placeholder="What's happening?" name="caption"></textarea>
-          <div>
-            <input type="file" name="image" style="display: inline-block; margin-right: 10px;" />
+          <div style="display: inline-block; position: relative;">
+            <!-- Hidden file input -->
+            <input 
+              type="file" 
+              name="image" 
+              id="fileInput" 
+              style="opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer;" 
+            />
+          
+            <!-- Custom button styled with the provided icon -->
+  
+              <img 
+                src="https://ik.imagekit.io/matguchi18/image-.png?updatedAt=1733376741193" 
+                alt="Upload Icon" 
+                style="width: 40px; height: 40px;"
+              /><button 
+              type="button" 
+              style="
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+              "
+              onclick="document.getElementById('fileInput').click()"
+            >
+            </div>
             <button type="submit">Post</button>
-          </div>
-        </form>
+          </form>
+            </button>
       </div>
 
       <!-- Post Section -->

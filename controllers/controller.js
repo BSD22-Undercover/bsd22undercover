@@ -275,8 +275,7 @@ class Controller {
 
     static async aboutUs(req, res) {
         try {
-
-
+            res.render("aboutUs.ejs")
         } catch (error) {
             res.send(error)
         }
