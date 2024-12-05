@@ -163,7 +163,8 @@ class Controller {
                 username,
                 bio,
                 profilePicture,
-                UserId: userId
+                UserId: userId,
+                role: "The Newbie"
             });
 
             res.redirect("/home");
