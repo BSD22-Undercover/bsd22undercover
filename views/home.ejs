@@ -210,9 +210,14 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
+      .formSearch {
+        margin-top: 7rem;
+        margin-bottom: 0px;
+      }
+
   </style>
 </head>
-<body>
+<body style="min-height:min-content">
 
   <!-- Centered Button at the Top -->
   <div class="center-button-container">
@@ -226,22 +231,25 @@
     <span>
       Hey there, welcome to Undercover <%= uname %>
     </span>
-    <button class="close-btn" onclick="closeNotification()">×</button>
+    <button class="close-btn" onclick="closeNotification(event)">×</button>
   </div>
 
+
+<div style="display: flex; justify-content: center;">
   <div>
-      <form action="/home" method="get" style="display: flex">
+      <form action="/home" method="get" style="display: flex" class="formSearch">
         <input
         type="text"
         name="caption"
         placeholder="Search topic caption"
         style="margin: 5px 5px"
         />
-        <button type="submit" style="padding: 5px; background-color: pink">
+        <button id="beda" style="padding: 5px; background-color: pink">
           Search
         </button>
       </form>
   </div>
+</div>
 
   <!-- Main Content -->
   <div class="content">
@@ -320,7 +328,8 @@
   </div>
 
   <script>
-    function closeNotification() {
+    function closeNotification(event) {
+      event.stopPropagation();
       const notification = document.getElementById("notificationBar");
       notification.style.display = "none";
     }

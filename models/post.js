@@ -31,9 +31,7 @@ module.exports = (sequelize, DataTypes) => {
           console.log(caption);
         }
         
-        return await Post.findAll({
-          where: search
-        });
+        return await Post.findAll(search);
 
       } catch (error) {
         throw error;
