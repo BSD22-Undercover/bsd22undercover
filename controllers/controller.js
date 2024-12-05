@@ -109,7 +109,7 @@ class Controller {
                 ]
             });
     
-            res.render("profile.ejs", { profile, posts: profile.Posts });
+            res.render("profile.ejs", { profile, posts: profile.Posts, userId: req.session.userId  });
         } catch (error) {
             res.send(error);
         }
@@ -134,7 +134,7 @@ class Controller {
             });
 
             
-            res.render("home.ejs", { posts });
+            res.render("home.ejs", { posts, userId: req.session.userId });
         } catch (error) {
             console.log(error)
             res.send(error)

@@ -1,33 +1,17 @@
 [
     {
       "caption": "Tes caption baru 1",
-      "image": "/assets/1.jpg",
+      "image": "https://ik.imagekit.io/matguchi18/posts/images_REUbRa1sf.jfif?updatedAt=1733300757820",
       "createdAt": "2024-11-06T00:00:00.000Z",
       "updatedAt": "2024-12-01T00:00:00.000Z",
       "UserId": 2
     },
     {
 
-        "caption": "Tes caption baru 2",
-        "image": "/assets/2.jpg",
-        "createdAt": "2024-10-06T00:00:00.000Z",
-        "updatedAt": "2024-11-01T00:00:00.000Z",
-        "UserId": 2
-    },
-    {
-
         "caption": "Tes caption baru 3",
-        "image": "/assets/3.jpg",
+        "image": "https://ik.imagekit.io/matguchi18/posts/among-us-family-512x512_cHD81vyKK.png?updatedAt=1733326203659",
         "createdAt": "2024-09-06T00:00:00.000Z",
         "updatedAt": "2024-10-01T00:00:00.000Z",
-        "UserId": 3
-    },
-    {
-
-        "caption": "Tes caption baru 4",
-        "image": "/assets/4.jpg",
-        "createdAt": "2024-08-06T00:00:00.000Z",
-        "updatedAt": "2024-09-01T00:00:00.000Z",
         "UserId": 3
     }
 ]

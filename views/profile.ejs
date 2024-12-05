@@ -87,14 +87,26 @@
     /* Posts Section Styling */
     .posts-section {
       margin-top: 20px;
-      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .feed {
+      width: 600px;
+      background-color: #222222;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
     }
 
     .post {
       background-color: #333;
-      margin: 10px 0;
+      margin-bottom: 25px;
       padding: 15px;
       border-radius: 8px;
+      width: 570px;
     }
 
     .post img {
@@ -113,7 +125,7 @@
 <body>
 
   <!-- Header (Navbar) -->
-  <%- include('_globalHeader') %>
+  <%- include('_globalHeader', { userId: userId }) %>
 
   <!-- Profile Content -->
   <div class="profile-content">
@@ -126,6 +138,7 @@
 
   <!-- Posts Section -->
   <div class="posts-section">
+    <div class="feed">
     <% if (posts && posts.length > 0) { %>
       <% posts.forEach(post => { %>
         <div class="post">
@@ -134,7 +147,10 @@
         </div>
       <% }) %>
     <% } else { %>
+      <div class="post">
       <p>No posts available</p>
+    </div>
+  </div>
     <% } %>
   </div>
 
