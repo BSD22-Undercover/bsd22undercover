@@ -207,13 +207,50 @@ class Controller {
         }
     }
 
+    static async showEditProfile(req, res) { 
+        try {
+            const profile = await Profile.findOne({
+                where: {
+                    UserId: req.params.UserId
+                },
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'email'],
+                        include: [  // Nested includes
+                            {
+                                model: Profile,
+                                attributes: ['username', 'bio']
+                            }
+                        ]
+                    },
+                    {
+                        model: Post,
+                        attributes: ['caption', 'image']
+                    }
+                ]
+            });
+    
+            res.render("profile.ejs", { profile, posts: profile.Posts });
+        } catch (error) {
+            res.send (error)
+        }
+    }
+
+
+
+
+
+
     static async aboutUs(req, res) {
         try {
-            res.render("aboutUs.ejs")
+
+
         } catch (error) {
             res.send(error)
         }
     }
+
 }
 
 module.exports = Controller
