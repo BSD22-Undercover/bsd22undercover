@@ -12,6 +12,18 @@ module.exports = (sequelize, DataTypes) => {
       Profile.belongsTo(models.User, { foreignKey: 'UserId' })
       Profile.hasMany(models.Post, { foreignKey: 'ProfileId' })
     }
+
+    static async notificationBar(userId) {
+      try {
+        const result = await Profile.findByPk(userId)
+                
+        return result.username
+      } catch (error) {
+        throw error
+      }
+    }
+
+
   }
   Profile.init({
     username: DataTypes.STRING,

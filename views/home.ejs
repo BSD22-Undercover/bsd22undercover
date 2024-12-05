@@ -195,6 +195,20 @@
         min-height: 100px;
         margin-bottom: 15px;
     }
+    .notification-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #fff7cc; /* Light yellow background */
+        color: #000; /* Black text color */
+        border: 1px solid #ffe58f; /* Yellow border */
+        border-radius: 5px;
+        padding: 10px 15px;
+        margin: 5rem 30px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
     .textInput {
       width: 100%;  /* Ensures it fills the container */
@@ -220,6 +234,27 @@
 
   <!-- Header (Navbar) -->
   <%- include('_globalHeader', { userId: userId }) %>
+
+  <div class="notification-bar" id="notificationBar">
+    <span>
+      Hey there, welcome to Undercover <%= uname %>
+    </span>
+    <button class="close-btn" onclick="closeNotification()">×</button>
+  </div>
+
+  <div>
+      <form action="/home" method="get" style="display: flex">
+        <input
+        type="text"
+        name="caption"
+        placeholder="Search topic caption"
+        style="margin: 5px 5px"
+        />
+        <button type="submit" style="padding: 5px; background-color: pink">
+          Search
+        </button>
+      </form>
+  </div>
 
   <!-- Main Content -->
   <div class="content">
@@ -271,7 +306,7 @@
           <div class="post-header">
             <% if (post.User.Profile) { %>
               <img src="<%= post.User.Profile.profilePicture || 'https://randomuser.me/api/portraits/men/5.jpg' %>" alt="<%= post.User.Profile.username %>">
-              <span><%= post.User.Profile.username %></span> <!-- Display the username here -->
+              <span><%= post.User.Profile.username + " " + addEmoji() %></span> <!-- Display the username here -->
             <% } else { %>
               <img src="https://randomuser.me/api/portraits/men/5.jpg" alt="Default User">
               <span>Unknown User</span>
@@ -308,6 +343,10 @@
   </div>
 
   <script>
+    function closeNotification() {
+      const notification = document.getElementById("notificationBar");
+      notification.style.display = "none";
+    }
   </script>
 
 </body>
