@@ -27,7 +27,10 @@ router.post("/home", upload.single("image"), Controller.createPost) // ==> posti
 router.get("/profile", Controller.loginForm)
 router.get("/profile/:UserId", Controller.showProfile)
 router.get("/profile/:UserId/editProfile", Controller.showEditProfile)
-router.post("/profile/:UserId/editProfile", Controller.editProfile)
+router.post("/profile/:UserId/editProfile", upload.single("image"), Controller.editProfile)
+
+// delete
+router.get("/delete/:postId", Controller.deletePost)
 
 // hashtag
 router.get("/hashtag/:name")

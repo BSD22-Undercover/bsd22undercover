@@ -12,7 +12,6 @@
       color: #ffffff;
     }
 
-    /* Navbar Styling */
     header {
       background-color: #000000;
       padding: 15px 0;
@@ -42,13 +41,17 @@
       background-color: #333333;
       border-radius: 25px;
       transition: background-color 0.3s ease;
+      display: flex;              
+      justify-content: center;   
+      align-items: center;        
+      height: 30px;               
+      text-align: center;
     }
 
     .navbar a:hover {
       background-color: #555555;
     }
 
-    /* Profile Page Styling */
     .profile-content {
       display: flex;
       justify-content: center;
@@ -84,7 +87,6 @@
       color: #ddd;
     }
 
-    /* Posts Section Styling */
     .posts-section {
       margin-top: 20px;
       display: flex;
@@ -120,14 +122,25 @@
       margin-top: 10px;
     }
 
+    .textInput {
+      width: 100%;  
+        max-width: 97%;  
+        padding: 10px;
+        background-color: #444444;
+        border: none;
+        border-radius: 8px;
+        color: #ffffff;
+        resize: vertical; 
+        min-height: 20px;
+        margin-bottom: 15px;
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- Header (Navbar) -->
   <%- include('_globalHeader', { userId: userId }) %>
 
-  <!-- Profile Content -->
   <div class="profile-content">
     <div class="profile">
       <img src="<%= profile.profilePicture %>" alt="Profile Picture">
@@ -139,7 +152,6 @@
     </div>
   </div>
   
-  <!-- Posts Section -->
   <div class="posts-section">
     <div class="feed">
       <% if (posts && posts.length > 0) { %>

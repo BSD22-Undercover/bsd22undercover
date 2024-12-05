@@ -12,17 +12,15 @@
       color: #ffffff;
     }
 
-    /* Navbar Styling */
-    /* Navbar Styling */
     header {
-        background-color: #000000; /* Black background for the navbar */
+        background-color: #000000;
         padding: 15px 0;
-        position: fixed; /* Fix the navbar at the top */
+        position: fixed; 
         top: 0;
         left: 0;
         width: 100%;
         display: flex;
-        justify-content: center; /* Center the navbar content */
+        justify-content: center;
         align-items: center;
         z-index: 1000;
     }
@@ -31,7 +29,7 @@
         display: flex;
         gap: 20px;
         font-size: 16px;
-        justify-content: center; /* Center the navbar links */
+        justify-content: center; 
         width: 100%;
     }
 
@@ -43,14 +41,17 @@
         background-color: #333333;
         border-radius: 25px;
         transition: background-color 0.3s ease;
+        display: flex;              
+        justify-content: center;   
+        align-items: center;        
+        height: 30px;               
+        text-align: center;
     }
 
     .navbar a:hover {
-        background-color: #555555; /* Darker shade on hover */
+        background-color: #555555;
     }
 
-
-    /* New CSS for the centered button */
     .center-button-container {
       display: flex;
       justify-content: center;
@@ -81,13 +82,12 @@
     .content {
       display: flex;
       justify-content: center;
-      margin-top: 120px; /* Adjust content position to make space for navbar */
+      margin-top: 120px;
     }
 
     .button-post {
       display: flex;
       justify-content: center;
-       /* Adjust content position to make space for navbar */
     }
 
     .feed {
@@ -98,7 +98,6 @@
       padding: 20px;
     }
 
-    /* Post Compose Area */
     .post-compose {
       background-color: #333333;
       border-radius: 8px;
@@ -133,7 +132,6 @@
         background-color: #777777;
     }
 
-    /* Post Styling */
     .post {
       margin-bottom: 20px;
       padding: 10px;
@@ -177,6 +175,7 @@
       cursor: pointer;
       font-size: 16px;
       font-weight: bold;
+      border-radius: 15px;
     }
 
     .post-footer button:hover {
@@ -184,14 +183,14 @@
     }
 
     .post-compose textarea {
-        width: 100%;  /* Ensures it fills the container */
-        max-width: 97%;  /* Limits the width to 100% of the container's size */
+        width: 100%;  
+        max-width: 97%;  
         padding: 10px;
         background-color: #444444;
         border: none;
         border-radius: 8px;
         color: #ffffff;
-        resize: vertical;  /* Allows vertical resizing */
+        resize: vertical;  
         min-height: 100px;
         margin-bottom: 15px;
     }
@@ -199,9 +198,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: #fff7cc; /* Light yellow background */
-        color: #000; /* Black text color */
-        border: 1px solid #ffe58f; /* Yellow border */
+        background-color: #fff7cc; 
+        color: #000; 
+        border: 1px solid #ffe58f; 
         border-radius: 5px;
         padding: 10px 15px;
         margin: 5rem 30px;
@@ -210,21 +209,30 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
-      .formSearch {
-        margin-top: 7rem;
-        margin-bottom: 0px;
-      }
+    .textInput {
+      width: 100%;  
+        max-width: 97%;  
+        padding: 10px;
+        background-color: #444444;
+        border: none;
+        border-radius: 8px;
+        color: #ffffff;
+        resize: vertical; 
+        min-height: 20px;
+        margin-bottom: 15px;
+    }
+
+    
 
   </style>
 </head>
 <body style="min-height:min-content">
 
-  <!-- Centered Button at the Top -->
   <div class="center-button-container">
     <button class="center-button">Centered Button</button>
   </div>
 
-  <!-- Header (Navbar) -->
+   
   <%- include('_globalHeader', { userId: userId }) %>
 
   <div class="notification-bar" id="notificationBar">
@@ -234,33 +242,19 @@
     <button class="close-btn" onclick="closeNotification(event)">×</button>
   </div>
 
+  
 
-<div style="display: flex; justify-content: center;">
-  <div>
-      <form action="/home" method="get" style="display: flex" class="formSearch">
-        <input
-        type="text"
-        name="caption"
-        placeholder="Search topic caption"
-        style="margin: 5px 5px"
-        />
-        <button id="beda" style="padding: 5px; background-color: pink">
-          Search
-        </button>
-      </form>
-  </div>
-</div>
-
-  <!-- Main Content -->
   <div class="content">
     <div class="feed">
-
-      <!-- Post Compose Section (Text Area, Image Upload, Send Button) -->
+      <% if(error) { %>
+        <p><%= error %></p>
+      <% } %>
       <div class="post-compose">
         <form action="/home" method="POST" enctype="multipart/form-data">
           <textarea placeholder="What's happening?" name="caption"></textarea>
+          <label for="">Tags:</label><p></p>
+          <input type="text" class="textInput" placeholder="Example input: funny,sad" name="name"></textarea>
           <div style="display: inline-block; position: relative;">
-            <!-- Hidden file input -->
             <input 
               type="file" 
               name="image" 
@@ -268,8 +262,6 @@
               style="opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer;" 
             />
           
-            <!-- Custom button styled with the provided icon -->
-  
               <img 
                 src="https://ik.imagekit.io/matguchi18/posts/image-gallery.png?updatedAt=1733390799588" 
                 alt="Upload Icon" 
@@ -292,16 +284,13 @@
             </button>
       </div>
 
-      <!-- Post Section -->
       <% posts.forEach(post => { %>
         <div class="post">
           <div class="post-header">
-            <!-- Check if Profile exists before rendering -->
             <% if (post.User.Profile) { %>
               <img src="<%= post.User.Profile.profilePicture || 'https://randomuser.me/api/portraits/men/5.jpg' %>" alt="<%= post.User.Profile.username %>">
-              <span><%= post.User.Profile.username + " " + addEmoji() %></span> <!-- Display the username here -->
+              <span><%= post.User.Profile.username + " " + addEmoji() %></span>
             <% } else { %>
-              <!-- Fallback content if no profile exists -->
               <img src="https://randomuser.me/api/portraits/men/5.jpg" alt="Default User">
               <span>Unknown User</span>
             <% } %>
@@ -309,17 +298,26 @@
           <div class="post-content">
             <%= post.caption %>
           </div>
-
           <% if (post.image) { %>
             <div class="post-image">
-                <img src="<%= post.image %>" alt="Post Image" style="max-width: 100%; border-radius: 8px;">
+              <img src="<%= post.image %>" alt="Post Image" style="max-width: 100%; border-radius: 8px;">
             </div>
-          <% } %>
+            <% } %>
+            <b><p></p>
+              <label>Tags:</label>
+              <br><br>
+          <% post.Tags.forEach(tag => { %>
+            <div class="post-content" style="display:inline;">
+              <a href="/post/<%= tag.id %>" style="border:1px solid white; margin-left: 3px; border-radius: 5px; padding:2px;">#<%= tag.name %></a href="#">
+            </div>
+          <% }) %>
+        </b>
 
           <div class="post-footer">
-            <button>Like</button>
-            <button>Comment</button>
-            <button>Share</button>
+            <button style>
+              <a href="/delete/<%= post.id %>">Delete</a>
+            </button>
+    
           </div>
         </div>
       <% }) %>   
@@ -330,10 +328,10 @@
   <script>
     function closeNotification(event) {
       event.stopPropagation();
-      const notification = document.getElementById("notificationBar");
-      notification.style.display = "none";
+      const notification = document.getElementById("notificationBar")
+      notification.style.display = "none"
     }
-  </script>
 
+  </script>
 </body>
 </html>
