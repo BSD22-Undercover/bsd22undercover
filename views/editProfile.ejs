@@ -121,7 +121,8 @@
       <img src="<%= profile.profilePicture %>" alt="Profile Picture">
       <div>
         <h2><%= profile.username %></h2><p></p>
-        <form action="/profile/<%= profile.id%>/editProfile" method="post"><br>
+        <form action="/profile/<%= profile.id %>/editProfile" method="post" enctype="multipart/form-data">
+          <br>
         
           <label>Choose photo to update</label><p></p>
           <input type="file" name="image" style="display: inline-block; margin-right: 10px;" />
