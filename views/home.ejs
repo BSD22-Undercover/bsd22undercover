@@ -43,6 +43,11 @@
         background-color: #333333;
         border-radius: 25px;
         transition: background-color 0.3s ease;
+        display: flex;              /* Ensure the button behaves like a flex container */
+        justify-content: center;    /* Center horizontally */
+        align-items: center;        /* Center vertically */
+        height: 30px;               /* You can adjust the height as needed */
+        text-align: center;
     }
 
     .navbar a:hover {
@@ -219,7 +224,7 @@
         border-radius: 8px;
         color: #ffffff;
         resize: vertical;  /* Allows vertical resizing */
-        min-height: 30px;
+        min-height: 20px;
         margin-bottom: 15px;
     }
 
@@ -233,28 +238,17 @@
   </div>
 
   <!-- Header (Navbar) -->
+   
   <%- include('_globalHeader', { userId: userId }) %>
 
   <div class="notification-bar" id="notificationBar">
     <span>
       Hey there, welcome to Undercover <%= uname %>
     </span>
-    <button class="close-btn" onclick="closeNotification()">×</button>
+    <button class="close-btn" onclick="closeNotification(event)">×</button>
   </div>
 
-  <div>
-      <form action="/home" method="get" style="display: flex">
-        <input
-        type="text"
-        name="caption"
-        placeholder="Search topic caption"
-        style="margin: 5px 5px"
-        />
-        <button type="submit" style="padding: 5px; background-color: pink">
-          Search
-        </button>
-      </form>
-  </div>
+  
 
   <!-- Main Content -->
   <div class="content">
@@ -315,20 +309,20 @@
           <div class="post-content">
             <%= post.caption %>
           </div>
-          <b><p></p>
-            <label>Tags:</label>
-            <br><br>
+          <% if (post.image) { %>
+            <div class="post-image">
+              <img src="<%= post.image %>" alt="Post Image" style="max-width: 100%; border-radius: 8px;">
+            </div>
+            <% } %>
+            <b><p></p>
+              <label>Tags:</label>
+              <br><br>
           <% post.Tags.forEach(tag => { %>
             <div class="post-content" style="display:inline;">
               <a href="/post/<%= tag.id %>" style="border:1px solid white; margin-left: 3px; border-radius: 5px; padding:2px;">#<%= tag.name %></a href="#">
             </div>
           <% }) %>
         </b>
-          <% if (post.image) { %>
-            <div class="post-image">
-                <img src="<%= post.image %>" alt="Post Image" style="max-width: 100%; border-radius: 8px;">
-            </div>
-          <% } %>
 
           <div class="post-footer">
             <button>
@@ -343,11 +337,12 @@
   </div>
 
   <script>
-    function closeNotification() {
-      const notification = document.getElementById("notificationBar");
-      notification.style.display = "none";
+    function closeNotification(event) {
+      event.stopPropagation();
+      const notification = document.getElementById("notificationBar")
+      notification.style.display = "none"
     }
-  </script>
 
+  </script>
 </body>
 </html>

@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {
           msg: `Email cant be null`
         },
-        notEMpty: {
+        notEmpty: {
           msg: `Email cant be empty`
         }
       }
