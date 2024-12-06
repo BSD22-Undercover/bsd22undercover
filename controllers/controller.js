@@ -160,8 +160,14 @@ class Controller {
 
             res.render("home.ejs", { posts, userId: req.session.userId, uname, addEmoji, caption, error });
         } catch (error) {
-            console.log(error)
-            res.send(error)
+            if(error.name === "SequelizeValidationError") {
+                const errors = error.errors.map(err => {
+                    return err.message
+                })
+                res.redirect(`/home?errors=${errors}`)
+            } else {
+                res.send(error)
+            }
         }
     }
 

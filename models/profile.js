@@ -26,7 +26,18 @@ module.exports = (sequelize, DataTypes) => {
 
   }
   Profile.init({
-    username: DataTypes.STRING,
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Username cant be null'
+        },
+        notEmpty: {
+          msg: 'Username cant be empty'
+        }
+      }
+    },
     bio: DataTypes.STRING,
     UserId: DataTypes.INTEGER,
     profilePicture: DataTypes.STRING,
